@@ -1,0 +1,37 @@
+{
+  "name": "chum-app",
+  "version": "1.0.0",
+  "description": "Social Media Project",
+  "main": "app.js",
+  "dependencies": {
+    "bcrypt": "^3.0.0",
+    "body-parser": "^1.18.3",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.3",
+    "dotenv": "^6.0.0",
+    "express": "^4.16.3",
+    "express-fileupload": "^1.0.0-alpha.1",
+    "express-mysql-session": "^2.0.1",
+    "express-rate-limit": "^3.2.1",
+    "express-session": "^1.15.6",
+    "express-validator": "^5.3.0",
+    "http-proxy-middleware": "^0.19.0",
+    "jsonwebtoken": "^8.3.0",
+    "moment": "^2.22.2",
+    "mysql": "^2.16.0",
+    "passport": "^0.4.0",
+    "redis": "^2.8.0",
+    "request-ip": "^2.1.1",
+    "strict-rate-limiter": "^0.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.4"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server2.js",
+    "dev": "nodemon server.js"
+  },
+  "author": "BSCS4A",
+  "license": "ISC"
+}
