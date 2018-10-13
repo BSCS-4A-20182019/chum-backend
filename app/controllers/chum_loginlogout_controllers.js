@@ -24,21 +24,44 @@ exports.chum_login = (req, res, next)=>{
                         if (err) throw err;
                         if(result === true){
                             let var_id = 'SELECT LAST_INSERT_ID() as user_id';
+                            let user_details = `SELECT username, lastname, firstname, email, type, bio, birthdate, gender FROM chum_profile where username='${username}' `;
                                 db.query(var_id, function(err, results, fields){
                                     if(err) throw err;
         
                                     var user_id = results[0];
 
                                     console.log(user_id);
-                                    req.login(user_id, function(err){
-                                        res.json({
-                                            message: 'Logged in'
-                                        });
-                                    });
+                                    db. query (user_details, (err, result)=>{
+                                            if (err) throw err;
+                                            console.log(err);
+                                            var username=result[0].username;
+                                            var lastname=result[0].lastname;
+                                            var firstname=result[0].firstname;
+                                            var email=result[0].email;
+                                            var type=result[0].type;
+                                            var bio=result[0].bio;
+                                            var birthdate=result[0].birthdate;
+                                            var gender=result[0].gender;
+                                            req.login(user_id, function(err){
+                                                res.json({
+                                                    username: username,
+                                                    lastname: lastname,
+                                                    firstname: firstname,
+                                                    email: email,
+                                                    type: type,
+                                                    bio: bio,
+                                                    birthdate: birthdate,
+                                                    gender: gender
+
+                                                });
+                                            });
+                                    })
+
                                 });
                         } else{
                             res.status(404).json({
-                                message: "Wrong password"
+                                code: process.env.incpw,
+                                message: "Incorrect password"
                             });
                         }
                     });
@@ -46,7 +69,8 @@ exports.chum_login = (req, res, next)=>{
             });
         }else{
             res.status(404).json({
-                message: "Wrong Username"
+                code: process.env.nouser,
+                message: "Username not existing"
             });
         }
     });

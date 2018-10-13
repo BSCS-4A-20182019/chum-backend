@@ -6,10 +6,8 @@ module.exports = function authenticationMiddleware () {
         
         console.log(req.user);
         console.log(req.isAuthenticated());
-        if (req.isAuthenticated()) {
-            res.redirect('/official/chum/restricted');
-        }else{
-            next();
-        }
+        if (req.isAuthenticated()) return res.redirect('/api/official/chum/login');
+        
+        next();
     }
 }

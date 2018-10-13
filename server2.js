@@ -11,6 +11,6 @@ port = process.env.port;
 const apiProxy = proxy('/api', { target: 'http://localhost:8000' });
 app.use('/api', apiProxy);
 
-app.listen(4200, () => {
-  console.log('Listening on: '+ 4200);
+app.listen(3000, () => {
+  console.log('Listening on: '+ 3000);
 });

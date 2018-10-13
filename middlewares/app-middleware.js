@@ -77,7 +77,7 @@ appMiddleware.use('/chum/newsfeed', share);
 // appMiddleware.use('/chum/counter', counter);
 // appMiddleware.use('/api', createAccountRoutes);
 appMiddleware.use('/chum/ranking', ranking);
-appMiddleware.use('/official/chum', chumLoginLogout);
+appMiddleware.use('/api/official/chum', chumLoginLogout);
 appMiddleware.use('/chum/timeline', timeline);
 
 module.exports = appMiddleware;
