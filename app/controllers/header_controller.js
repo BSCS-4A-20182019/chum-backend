@@ -110,6 +110,13 @@ exports.handler_search = (req, res, next)=>{
                         if(resultrank.length === 0){
                             res_rank = "No Rank";
                         }
+                        var text = "";
+                        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+                      
+                        for (var i = 0; i < 20; i++)
+                          text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+                          console.log(text);
                         res.status(200).json({
                             result: {
                                 profile: resultprof,
