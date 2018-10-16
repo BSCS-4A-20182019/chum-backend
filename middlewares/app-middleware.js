@@ -76,14 +76,11 @@ appMiddleware.use('api/profile', chumlist);
 appMiddleware.use('api/chum/newsfeed', share);
 // appMiddleware.use('/chum/counter', counter);
 // appMiddleware.use('/api', createAccountRoutes);
-<<<<<<< HEAD
 appMiddleware.use('/chum/ranking', ranking);
 appMiddleware.use('/api/official/chum', chumLoginLogout);
 appMiddleware.use('/chum/timeline', timeline);
-=======
 appMiddleware.use('api/chum/ranking', ranking);
 appMiddleware.use('api/official/chum', chumLoginLogout);
 appMiddleware.use('api/chum/timeline', timeline);
->>>>>>> togle
 
 module.exports = appMiddleware;
