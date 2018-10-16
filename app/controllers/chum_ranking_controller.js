@@ -68,14 +68,14 @@ exports.rank_level_get= (req, res, next)=>{
     let select_like = `SELECT SUM(chum_like) as chumLike FROM chum_post where username='${req.params.username}'`;
     let select_share = `SELECT count(share_uname) as countShare FROM chum_share where share_uname = '${req.params.username}'`;
     let select_list = `SELECT count(chum_id) as countList FROM chum_list where username= '${req.params.username}'`;
-    let select_level = `SELECT chum_level as chumLevel chum_levelname FROM chum_rank where username = '${req.params.username}'`;
+    let select_level = `SELECT chum_level chum_levelname FROM chum_rank where username = '${req.params.username}'`;
 	let select_req_sql = `SELECT * FROM chum_rank_requirements WHERE username = '${req.params.username}'`;
 	let select_reqlvl_sql = `SELECT * FROM chum_rankname`;
 	let update_rankUpdate = `UPDATE chum_rank SET ? WHERE username = '${req.params.username}'`;
 	let update_reqUpdate = `UPDATE chum_rank_requirements SET ? WHERE username = '${req.params.username}'`;
 
 	db.query(select_level, (err, resultlevel)=>{
-		var chumlevel = resultlevel[0].chumLevel;
+		var chumlevel = resultlevel[0].chum_level;
 		var lvlName = resultlevel[0].chum_levelname;
 	
 		db.query(select_like, (err, resultlike)=>{
