@@ -68,7 +68,7 @@ exports.rank_level_get= (req, res, next)=>{
     let select_like = `SELECT SUM(chum_like) as chumLike FROM chum_post where username='${req.params.username}'`;
     let select_share = `SELECT count(share_uname) as countShare FROM chum_share where share_uname = '${req.params.username}'`;
     let select_list = `SELECT count(chum_id) as countList FROM chum_list where username= '${req.params.username}'`;
-    let select_level = `SELECT chum_level chum_levelname FROM chum_rank where username = '${req.params.username}'`;
+    let select_level = `SELECT chum_level, chum_levelname FROM chum_rank where username = '${req.params.username}'`;
 	let select_req_sql = `SELECT * FROM chum_rank_requirements WHERE username = '${req.params.username}'`;
 	let select_reqlvl_sql = `SELECT * FROM chum_rankname`;
 	let update_rankUpdate = `UPDATE chum_rank SET ? WHERE username = '${req.params.username}'`;
@@ -96,10 +96,10 @@ exports.rank_level_get= (req, res, next)=>{
 						var addreq_like = result[0].chum_addreq_like;
 						var addreq_share = result[0].chum_addreq_share;
 						var addreq_list = result[0].chum_addreq_list;
-						
-						if(chumlevel <= 100){
-							if (req_like>=chumlike && req_list>=chumlist && req_share>=chumshare){
-								db.query(select_reqlvl_sql, (err, resLvlName)=>{
+
+						db.query(select_reqlvl_sql, (err, resLvlName)=>{
+							if(chumlevel <= 100){
+								if (req_like>=chumlike && req_list>=chumlist && req_share>=chumshare){
 									if (chumlevel===req_lvl){
 										switch(req_lvl){
 											case 5:
@@ -174,12 +174,26 @@ exports.rank_level_get= (req, res, next)=>{
 												lvlName = resLvlName[9].chum_levelname;
 												break;
 										}
-
 									}
+									// UPDATE THE CURRENT LIKE, SHARE, LIST AND LEVEL
+									chumlevel = chumlevel+1;
+									let upt1 = {
+										chum_level: chumlevel,
+										rank_like: chumlike,
+										rank_share: chumshare,
+										rank_chum: chumlist,
+										chum_levelname: lvlName
+									};
+		
+									db.query(update_rankUpdate, upt1, (err)=>{
+										if(err) throw err;
+									});
+		
 									req_like+=addreq_like;
 									req_share+=addreq_share;
 									req_list+=addreq_list;
-
+									
+									// UPDATE THE REQUIRED LIKE, SHARE, LIST AND LEVEL
 									let upt2 = {
 										chum_req_level: req_lvl,
 										chum_req_like: req_like,
@@ -189,28 +203,20 @@ exports.rank_level_get= (req, res, next)=>{
 										chum_addreq_share: addreq_share,
 										chum_addreq_list: addreq_list
 									};
-
+		
 									db.query(update_reqUpdate, upt2, (err)=>{
 										if(err) throw err;
 										res.status(200).json({
-											message: "LEVEL UP"
+											message: 'Level up'
 										});
 									});
-								});
-								chumlevel = chumlevel+1;
-								let upt1 = {
-									chum_level: chumlevel,
-									rank_like: chumlike,
-									rank_share: chumshare,
-									rank_chum: chumlist,
-									chum_levelname: lvlName
-								};
-								// UPDATE THE CURRENT LIKE, SHARE, LIST AND LEVEL
-								db.query(update_rankUpdate, upt1, (err)=>{
-									if(err) throw err;
-								});
+								}else{
+									res.status(401).json({
+										message: 'Cannot level up yet'
+									});
+								}
 							}
-						}
+						});
 					});
 				});
 			});
