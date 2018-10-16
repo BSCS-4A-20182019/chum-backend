@@ -71,6 +71,7 @@ exports.rank_level_get= (req, res, next)=>{
     let select_level = `SELECT chum_level as chumLevel FROM chum_rank where username = '${req.params.username}'`;
 	let select_req_sql = `SELECT * FROM chum_rank_requirements WHERE username = '${req.params.username}'`;
 	let select_reqlvl_sql = `SELECT * FROM chum_rankname`;
+	let select_rank_sql = `SELECT chum_levelname FROM chum_rank WHERE username = '${req.params.username}'`;
 	let update_rankUpdate = `UPDATE chum_rank SET ? WHERE username = '${req.params.username}'`;
 	let update_reqUpdate = `UPDATE chum_rank_requirements SET ? WHERE username = '${req.params.username}'`;
 
@@ -98,20 +99,8 @@ exports.rank_level_get= (req, res, next)=>{
 						
 						if(chumlevel <= 100){
 							if (req_like>=chumlike && req_list>=chumlist && req_share>=chumshare){
-								
-								chumlevel = chumlevel+1;
-								let upt1 = {
-									chum_level: chumlevel,
-									rank_like: chumlike,
-									rank_share: chumshare,
-									rank_chum: chumlist
-								};
-								// UPDATE THE CURRENT LIKE, SHARE, LIST AND LEVEL
-								db.query(update_rankUpdate, upt1, (err)=>{
-									if(err) throw err;
-								});
-								
 								db.query(select_reqlvl_sql, (err, resLvlName)=>{
+									var lvlName = null;
 									if (chumlevel===req_lvl){
 										switch(req_lvl){
 											case 5:
@@ -119,6 +108,7 @@ exports.rank_level_get= (req, res, next)=>{
 												addreq_share=2;
 												addreq_list=4;
 												req_lvl=10;
+												lvlName = resLvlName[1].chum_levelname;
 												break;
 								
 											case 10:
@@ -126,6 +116,7 @@ exports.rank_level_get= (req, res, next)=>{
 												addreq_share=3;
 												addreq_list=5;
 												req_lvl=15;
+												lvlName = resLvlName[2].chum_levelname;
 												break;
 								
 											case 15:
@@ -133,6 +124,7 @@ exports.rank_level_get= (req, res, next)=>{
 												addreq_share=4;
 												addreq_list=6;
 												req_lvl=25;
+												lvlName = resLvlName[3].chum_levelname;
 												break;
 								
 											case 25:
@@ -140,6 +132,7 @@ exports.rank_level_get= (req, res, next)=>{
 												addreq_share=5;
 												addreq_list=7;
 												req_lvl=45;
+												lvlName = resLvlName[4].chum_levelname;
 												break;
 								
 											case 45:
@@ -147,6 +140,7 @@ exports.rank_level_get= (req, res, next)=>{
 												addreq_share=6;
 												addreq_list=8;
 												req_lvl=65;
+												lvlName = resLvlName[5].chum_levelname;
 												break;
 								
 											case 65:
@@ -154,6 +148,7 @@ exports.rank_level_get= (req, res, next)=>{
 												addreq_share=6;
 												addreq_list=9;
 												req_lvl=80;
+												lvlName = resLvlName[6].chum_levelname;
 												break;
 								
 											case 80:
@@ -161,6 +156,7 @@ exports.rank_level_get= (req, res, next)=>{
 												addreq_share=7;
 												addreq_list=10;
 												req_lvl=90;
+												lvlName = resLvlName[7].chum_levelname;
 												break;
 								
 											case 90:
@@ -168,6 +164,7 @@ exports.rank_level_get= (req, res, next)=>{
 												addreq_share=8;
 												addreq_list=11;
 												req_lvl=5;
+												lvlName = resLvlName[8].chum_levelname;
 												break;
 								
 											case 100:
@@ -175,6 +172,7 @@ exports.rank_level_get= (req, res, next)=>{
 												addreq_share=9;
 												addreq_list=12;
 												req_lvl=5;
+												lvlName = resLvlName[9].chum_levelname;
 												break;
 										}
 
@@ -199,6 +197,18 @@ exports.rank_level_get= (req, res, next)=>{
 											message: "LEVEL UP"
 										});
 									});
+								});
+								chumlevel = chumlevel+1;
+								let upt1 = {
+									chum_level: chumlevel,
+									rank_like: chumlike,
+									rank_share: chumshare,
+									rank_chum: chumlist,
+									chum_levelname: lvlName
+								};
+								// UPDATE THE CURRENT LIKE, SHARE, LIST AND LEVEL
+								db.query(update_rankUpdate, upt1, (err)=>{
+									if(err) throw err;
 								});
 							}
 						}

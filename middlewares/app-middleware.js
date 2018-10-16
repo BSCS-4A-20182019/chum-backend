@@ -67,17 +67,23 @@ appMiddleware.use(session({
 appMiddleware.use(passport.initialize());
 appMiddleware.use(passport.session());
 
-appMiddleware.use('/signup', createAccountRoutes);
-appMiddleware.use('/profile', chumRequestRoutes);
-appMiddleware.use('/chum', headerRoutes);
-appMiddleware.use('/settings', settingRoutes);
-appMiddleware.use('/chum/newsfeed', newsfeed);
-appMiddleware.use('/profile', chumlist);
-appMiddleware.use('/chum/newsfeed', share);
+appMiddleware.use('api/signup', createAccountRoutes);
+appMiddleware.use('api/profile', chumRequestRoutes);
+appMiddleware.use('api/chum', headerRoutes);
+appMiddleware.use('api/settings', settingRoutes);
+appMiddleware.use('api/chum/newsfeed', newsfeed);
+appMiddleware.use('api/profile', chumlist);
+appMiddleware.use('api/chum/newsfeed', share);
 // appMiddleware.use('/chum/counter', counter);
 // appMiddleware.use('/api', createAccountRoutes);
+<<<<<<< HEAD
 appMiddleware.use('/chum/ranking', ranking);
 appMiddleware.use('/api/official/chum', chumLoginLogout);
 appMiddleware.use('/chum/timeline', timeline);
+=======
+appMiddleware.use('api/chum/ranking', ranking);
+appMiddleware.use('api/official/chum', chumLoginLogout);
+appMiddleware.use('api/chum/timeline', timeline);
+>>>>>>> togle
 
 module.exports = appMiddleware;
