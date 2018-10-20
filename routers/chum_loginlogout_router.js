@@ -7,7 +7,7 @@ const checkAuthSign = require('../app/auth/checkAuthSign');
 const checkAuthVerify = require('../app/auth/checkAuthVerify');
 const apiLimiter = require('../app/auth/apilimit');
 
-router.post('/login', apiLimiter, checkAuthSign, checkAuthVerify,  chumLoginLogout.chum_login);
+router.post('/login', checkAuthSign, checkAuthVerify,  chumLoginLogout.chum_login);
 
 router.get('/logout', chumLoginLogout.chum_logout);
 

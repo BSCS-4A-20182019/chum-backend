@@ -57,9 +57,9 @@ var sessionStore = new MySQLStore(options);
 //FOR SESSION
 appMiddleware.use(session({
     secret:'chumchumchumchumchumchumchumchumchumchum', 
-    resave: false,
+    resave: true,
     store: sessionStore,
-    saveUninitialized: false,
+    saveUninitialized: true,
     cookie: true
 }));
 
@@ -70,14 +70,14 @@ appMiddleware.use(passport.session());
 appMiddleware.use('api/signup', createAccountRoutes);
 appMiddleware.use('api/profile', chumRequestRoutes);
 appMiddleware.use('api/chum', headerRoutes);
-appMiddleware.use('api/settings', settingRoutes);
+appMiddleware.use('/api/settings', settingRoutes);
 appMiddleware.use('api/chum/newsfeed', newsfeed);
 appMiddleware.use('api/profile', chumlist);
 appMiddleware.use('api/chum/newsfeed', share);
 // appMiddleware.use('/chum/counter', counter);
-// appMiddleware.use('/api', createAccountRoutes);
+appMiddleware.use('/api', createAccountRoutes);
 appMiddleware.use('api/chum/ranking', ranking);
-appMiddleware.use('api/official/chum', chumLoginLogout);
+appMiddleware.use('/api/official/chum', chumLoginLogout);
 appMiddleware.use('api/chum/timeline', timeline);
 appMiddleware.use('api/chum/ranking', ranking);
 appMiddleware.use('api/official/chum', chumLoginLogout);
